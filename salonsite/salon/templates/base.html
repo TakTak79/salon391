@@ -11,32 +11,33 @@
     
     
     <nav class="navbar navbar-expand-lg navbar-light bg-dark text">
-      <a class="navbar-brand text-light" href="">Brow Salon</a>
+      <a class="navbar-brand text-light" href="{% url 'index' %}">Brow Salon</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                  <a class="nav-link text-light" href="">Shop</a>
+                  <a class="nav-link text-light" href="{% url 'shop' %}">Shop</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-light" href="">Services</a>
+                  <a class="nav-link text-light" href="{% url 'services' %}">Services</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-light" href="">About</a>
+                  <a class="nav-link text-light" href="{% url 'about' %}">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light" href="">Contact</a>
+                <a class="nav-link text-light" href="{% url 'cart' %}">Cart</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light" href="">Cart</a>
+                <a class="nav-link text-light" href="{% url 'booking' %}">Book now</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light" href="">Book now</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-light" href="">Sign in/Sign up</a>
+                {% if user.is_authenticated %}
+                  <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a> 
+                {% else %}
+                  <a class="nav-link text-light" href="{% url 'login_page' %}">Sign up/Login</a>
+                {% endif %}
               </li>
           </ul>
       </div>
