@@ -26,9 +26,11 @@
               <li class="nav-item">
                   <a class="nav-link text-light" href="{% url 'about' %}">About</a>
               </li>
+              {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'cart' %}">Cart</a>
+                <a class="nav-link text-light" href="{% url 'view_cart' %}">Cart</a>
               </li>
+              {% endif %}
               <li class="nav-item">
                 <a class="nav-link text-light" href="{% url 'booking' %}">Book now</a>
               </li>
