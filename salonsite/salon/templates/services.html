@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 
-<div>Service info goes here</div>
+<table class="table text-center">
+    <thead>
+      <tr>
+        <th scope="col">Service</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for service in services %}
+      <tr class="text-center">
+        <td>{{service.name}}</td>
+        <td>{{service.duration}}</td>
+        <td>${{service.cost}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
 
 {% endblock %}

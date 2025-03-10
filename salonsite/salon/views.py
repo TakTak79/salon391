@@ -20,10 +20,12 @@ def about(request):
     return render(request, 'about.html')
 
 def booking(request):
-    return render(request, 'book.html')
+    all_services = Service.objects.all()
+    return render(request, 'book.html', {'services':all_services})
 
 def services(request):
-    return render(request, 'services.html')
+    all_services = Service.objects.all()
+    return render(request, 'services.html', {'services':all_services})
 
 def shop(request):
     all_products = Product.objects.all()
