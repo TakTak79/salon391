@@ -83,7 +83,8 @@ def register_page(request):
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
-            username=username
+            username=username,
+            email=username
         )
         
         # Set the user's password and save the user object
