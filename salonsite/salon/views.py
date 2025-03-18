@@ -1,3 +1,4 @@
+from ntpath import join
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
@@ -9,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from .models import *
+from django.core.mail import send_mail
+
 
 #from salon.forms import SignUpForm
 
@@ -122,6 +125,7 @@ def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
     total_price = sum(item.product.cost * item.quantity for item in cart_items)
     return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
+
 def add_to_cart(request, product_id):
     product = Product.objects.get(id=product_id)
     cart_item, created = CartItem.objects.get_or_create(product=product, user=request.user)
@@ -133,3 +137,34 @@ def remove_from_cart(request, item_id):
     cart_item = CartItem.objects.get(id=item_id)
     cart_item.delete()
     return redirect('view_cart')
+
+def place_order(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    total_price = sum(item.product.cost * item.quantity for item in cart_items)
+    user = request.user
+    user_email = user.email
+    items=[]
+    for item in cart_items:
+        items.append(item.product.name +": " + str(item.quantity))
+        item.delete()
+
+    #Email to user
+    send_mail(
+    "Order Recieved",
+    "Your order has been sent to the owner. When the order is approved you will recieve an email. \n"+'\n'.join(items) + "Total Price is: "+ str(total_price) +"\nThank you for ordering from Brow Salon LLC.",
+    "browsalon3@gmail.com",
+    [str(user.email)],
+    fail_silently=False,
+    )
+
+    #Email to owner
+    send_mail(
+    "Order Recieved",
+    "Order from: " + str(user_email)+"\n" + '\n'.join(items) + "\nTotal price is: " + str(total_price),
+    "browsalon3@gmail.com",
+    ["browsalon3@gmail.com"],
+    fail_silently=False,
+    )
+
+    return redirect('view_cart')
+
