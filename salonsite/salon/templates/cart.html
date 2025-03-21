@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<head>
+<!-- <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -37,10 +37,12 @@
             border-radius: 5px;
         }
     </style>
-</head>
+</head> -->
+
+
 <div class="container">
     <div class="row">
-        <div class="col-sm">
+        <div class="col-sm text-center">
             <h1>Your Shopping Cart</h1>
 
             <div class="product-list">
@@ -49,10 +51,10 @@
         
             {% for item in cart_items %}
             <div class="product-item">
-                <p>{{ item.product.name }} ({{ item.quantity }})</p>
-                <p>Price: ${{ item.product.cost }}</p>
+                <p>{{ item.product.name }} ({{ item.quantity }})    Price: ${{ item.product.cost }}</p>
                 <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
             </div>
+            <br>
             {% empty %}
             <p>Your cart is empty.</p>
             {% endfor %}
@@ -64,14 +66,18 @@
          
             <a href="{% url 'shop' %}">Continue Shopping</a>
             <br>
-            <a type="button" class="btn btn-dark" href="{% url 'place_order' %}">Place Order</a>
+            <br>
+            <a type="button" class="btn" href="{% url 'place_order' %}">Place Order</a>
         
         </div>
-        <div class="col-sm">
-            <img src="https://images.pexels.com/photos/8468162/pexels-photo-8468162.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-fluid" alt="Stock image of salon products">
+        <div class="col-sm" style="text-align: right;">
+            <br>
+            <img src="https://images.pexels.com/photos/8468162/pexels-photo-8468162.jpeg?auto=compress&cs=tinysrgb&w=600" class="img img-fluid" alt="Stock image of salon products">
         </div>
     </div>
 </div>
+
+<br>
 
 
 {% endblock %}

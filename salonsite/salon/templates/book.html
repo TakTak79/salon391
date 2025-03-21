@@ -4,34 +4,38 @@
     {% if user.is_authenticated %}
         <div class="container">
             <div class="row">
-            <div class="col-sm">
-               <table class="table text-center">
-                <thead>
-                    <tr>
-                        <th scope="col">Service</th>
-                        <th scope="col">Duration</th>
-                        <th scope="col">Cost</th>
-                    </tr>
-                </thead>
-                 <tbody>
-                    {% for service in services %}
-                    <tr class="text-center">
-                        <td>{{service.name}}</th>
-                        <td>{{service.duration}}</td>
-                        <td>{{service.cost}}</th>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            <div class="col-sm">
-                View and Schedule Appointments Here
-                <!-- Google Calendar Appointment Scheduling begin -->
-                <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0U4Px8MVijQFh46-tq0K2A2-CbpYcRmq73ZLCdJ88cfgeeV7YlZAOydqPLhfyWe0bBw5pSuD1J?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
-                <!-- end Google Calendar Appointment Scheduling -->
+                <div class="col-sm">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">Service</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% csrf_token %}  <!-- CSRF token for security -->
+                            {% for service in services %}
+                            <tr class="text-center">
+                                <td>{{service.name}}</th>
+                                <td>{{service.duration}}</td>
+                                <td>{{service.cost}}</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    View and Schedule Appointments Here
+                    <!-- Google Calendar Appointment Scheduling begin -->
+                    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0U4Px8MVijQFh46-tq0K2A2-CbpYcRmq73ZLCdJ88cfgeeV7YlZAOydqPLhfyWe0bBw5pSuD1J?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
+                    <!-- end Google Calendar Appointment Scheduling -->
+                </div>
             </div>
         </div>
 
     {% else %}
         <div class="text-center">Log in to schedule an appoitnment</div>
     {% endif %}
+
 {% endblock %}

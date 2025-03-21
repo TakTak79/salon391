@@ -6,42 +6,118 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
+
+  <style>
+    /* Apply color palette */
+    body {
+        background-color: #f2f2f0; /* Light background */
+        color: #0d0d0d; /* Dark text */
+    }
+    
+    .navbar {
+        background-color: #5b6e74 !important; /* Navbar background */
+    }
+    
+    .navbar .nav-link, 
+    .navbar .navbar-brand {
+        color: #f2f2f0 !important; /* Updated navbar text color */
+    }
+    
+    .navbar .nav-link:hover {
+        color: #819fa7 !important; /* Hover effect */
+    }
+    
+    .footer {
+        background-color: #819fa7 !important; /* Footer background */
+        color: #f2f2f0 !important; /* Footer text */
+    }
+    
+    .table {
+        background-color: #bde8f1 !important; /* Table background */
+        color: #0d0d0d !important; /* Table text */
+    }
+    
+    .table th {
+        background-color: #5b6e74 !important; /* Table headers */
+        color: #f2f2f0 !important;
+    }
+    
+    .table td {
+        background-color: #f2f2f0 !important;
+        color: #0d0d0d !important;
+    }
+    
+    .btn-primary {
+        background-color: #5b6e74 !important; /* Custom button */
+        border-color: #5b6e74 !important;
+    }
+    
+    .btn-primary:hover {
+        background-color: #819fa7 !important;
+        border-color: #819fa7 !important;
+    }
+
+    .img{
+        display: inline-block;
+        width:100%;
+        max-width:400px;
+    }
+    
+    .card{
+        background-color: #f2f2f0 !important;
+        color: #0d0d0d !important; /* Card text */      
+    }
+
+    .btn{
+        background-color: #819fa7 !important; /* Button background */
+        color: #f2f2f0 !important; /* Button text */
+    }
+  </style>
+
+
   <body class="bg-light">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark text">
-      <a class="navbar-brand text-light" href="{% url 'index' %}">Brow Salon</a>
+    <nav class=" navbar navbar-expand-md sticky-top">
+     
+     
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                  <a class="nav-link text-light" href="{% url 'shop' %}">Shop</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link text-light" href="{% url 'services' %}">Services</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link text-light" href="{% url 'about' %}">About</a>
-              </li>
+
+        <a class="navbar-brand text-light" href="{% url 'index' %}" style="text-indent: 50px;">  Brow Salon</a>
+
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'shop' %}">Shop</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'services' %}">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'about' %}">About</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{% url 'view_cart' %}">Cart</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{% url 'booking' %}">Book Now</a>
+            </li>
+            <li class="nav-item">
               {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'view_cart' %}">Cart</a>
-              </li>
+                <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a> 
+              {% else %}
+                <a class="nav-link text-light" href="{% url 'login_page' %}">Sign up/Login</a>
               {% endif %}
-              <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'booking' %}">Book now</a>
-              </li>
-              <li class="nav-item">
-                {% if user.is_authenticated %}
-                  <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a> 
-                {% else %}
-                  <a class="nav-link text-light" href="{% url 'login_page' %}">Sign up/Login</a>
-                {% endif %}
-              </li>
-          </ul>
+            </li>
+        </ul>
+     
       </div>
     </nav>
 
@@ -53,21 +129,26 @@
       {% endblock %}
     </div>
 
-    </nav>
+
+   
+
+    <div class="clear" style=" clear: both; height: 100px;"></div><!-- Clear dvided to help with spacing-->
       <!-- Footer -->
-      <footer class="footer bg-light text-center py-3 mt-5">
-        <div class="container">
-            <div class="row">
-              <div class="col-sm text-start fw-bold fs-1">Brow Salon LLC</div>
-              <div class="col-sm"></div>
-              <div class="col-sm text-start">
-                <div class="fw-bold">Location:</div>
-                <br>541 Main St NW,<br>Bourbonnais, IL 60914</div>
-              <div class="col-sm text-start">
-                <div class="fw-bold">Contact:</div>
-                <br>adipatel@browthreadingsalon.com<br>(815)304-5985</div>
-            </div>
-        </div>
+    <footer class="sticky-bottom footer bg-light text-center py-3 mt-5">
+      <div class="container">
+          <div class="row">
+            <div class="col-sm text-start fw-bold fs-1">Brow Salon LLC</div>
+            <div class="col-sm"></div>
+            <div class="col-sm text-start">
+              <div class="fw-bold">Location:</div>
+              <br>541 Main St NW,<br>Bourbonnais, IL 60914</div>
+            <div class="col-sm text-start">
+              <div class="fw-bold">Contact:</div>
+              <br>adipatel@browthreadingsalon.com<br>(815)304-5985</div>
+          </div>
+      </div>
     </footer>
+
+
   </body>
 </html>
