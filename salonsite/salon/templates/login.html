@@ -4,18 +4,19 @@
 
 <div class="container mt-5">
     <!-- Login form -->
-    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" 
+    style="background-color: #f2f2f0; border: 2px solid #5b6e74; color: #0d0d0d;">
         <h1 style="text-align: center;"><span class="fw-bold fs-1">Brow Salon</span></h1>
 
         {% csrf_token %}  <!-- CSRF token for security -->
 
         <!-- Login heading -->
-        <h3>Login</h3>
-        <hr>
+        <h3 class="text-center" style="color: #5b6e74;">Login</h3>
+        <hr style="border-color: #5b6e74;">
 
         <!-- Display error/success messages -->
         {% if messages %}
-        <div class="alert alert-primary" role="alert">
+        <div class="alert alert-primary" role="alert" style="background-color: #bde8f1; color: #0d0d0d;">
             {% for message in messages %}
             {{ message }}
             {% endfor %}
@@ -39,7 +40,8 @@
         <p>Don't have an account <a href="{% url 'register' %}">Register</a> </p>
 
         <!-- Submit button -->
-        <button type="submit" class="btn btn-dark">Submit</button>
+        <button type="submit" class="btn w-100 mt-3" 
+        style="background-color: #819fa7; color: white; border: none;">Submit</button>
     </form>
 </div>
 

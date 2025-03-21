@@ -21,7 +21,7 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
-
+    
 def booking(request):
     all_services = Service.objects.all()
     return render(request, 'book.html', {'services':all_services})
