@@ -2,43 +2,6 @@
 
 {% block content %}
 
-<!-- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        /* Add CSS styles for flex container and items */
-        .product-list {
-            display: flex;
-            flex-wrap: wrap; /* Allow items to wrap to the next row if necessary */
-            justify-content: space-between; /* Space items evenly along the main axis */
-            list-style: none; /* Remove list styles */
-            padding: 0;
-        }
-
-        .product-item {
-            
-            flex: 1; /* Grow to fill available space evenly */
-             /* Limit item width to avoid overcrowding */
-            margin: 10px; /* Add spacing between items */
-            border: 1px solid #ccc; /* Add a border for visual separation */
-            padding: 10px;
-            text-align: center;
-        }
-
-        /* Style the "Buy Now" button */
-        .buy-now-button {
-            display: block;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head> -->
-
 
 <div class="container">
     <div class="row">
@@ -51,8 +14,16 @@
         
             {% for item in cart_items %}
             <div class="product-item">
-                <p>{{ item.product.name }} ({{ item.quantity }})    Price: ${{ item.product.cost }}</p>
-                <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
+
+                <p>                 
+                    <img 
+                    class=" small_img card-img-top" 
+                    src="{{ item.product.image.url }}" 
+                    width="100" 
+                    alt="{{ item.product.name }}"/>
+                    {{ item.product.name }} ({{ item.quantity }})    Price: ${{ item.product.cost }}</p>
+                <a type="button" class="btn" href="{% url 'add_to_cart' item.product.id %}">+</a>
+                <a type="button" class="btn" href="{% url 'remove_from_cart' item.id %}">-</a>
             </div>
             <br>
             {% empty %}
@@ -64,9 +35,7 @@
             <p>Total Price: ${{ total_price }}</p>
         
          
-            <a href="{% url 'shop' %}">Continue Shopping</a>
-            <br>
-            <br>
+            <a type="button" class="btn" href="{% url 'shop' %}">Continue Shopping</a>
             <a type="button" class="btn" href="{% url 'place_order' %}">Place Order</a>
         
         </div>
@@ -77,7 +46,8 @@
     </div>
 </div>
 
-<br>
+<div class="clear" style=" clear: both; height: 300px;"></div><!-- Clear dvided to help with spacing-->
+
 
 
 {% endblock %}
