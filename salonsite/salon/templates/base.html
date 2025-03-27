@@ -15,7 +15,7 @@
     }
     
     .navbar {
-        background-color: #5b6e74 !important; /* Navbar background */
+        background-color: #1E1E1E !important; /* Navbar background */
     }
     
     .navbar .nav-link, 
@@ -28,8 +28,9 @@
     }
     
     .footer {
-        background-color: #819fa7 !important; /* Footer background */
+        background-color: #1E1E1E !important; /* Footer background */
         color: #f2f2f0 !important; /* Footer text */
+        /* height: 255px; */
     }
     
     .table {
@@ -38,7 +39,7 @@
     }
     
     .table th {
-        background-color: #5b6e74 !important; /* Table headers */
+        background-color: #2C2C2C !important; /* Table headers */
         color: #f2f2f0 !important;
     }
     
@@ -48,19 +49,25 @@
     }
     
     .btn-primary {
-        background-color: #5b6e74 !important; /* Custom button */
-        border-color: #5b6e74 !important;
+        background-color: #2C2C2C !important; /* Custom button */
+        border-color: #2C2C2C !important;
     }
     
     .btn-primary:hover {
-        background-color: #819fa7 !important;
-        border-color: #819fa7 !important;
+        background-color: #2C2C2C !important;
+        border-color: #2C2C2C !important;
     }
 
     .img{
         display: inline-block;
         width:100%;
         max-width:400px;
+    }
+
+    .small_img{
+      display: inline-block;
+        width:100%;
+        max-width:50px;
     }
     
     .card{
@@ -69,8 +76,13 @@
     }
 
     .btn{
-        background-color: #819fa7 !important; /* Button background */
+        background-color: #2C2C2C !important; /* Button background */
         color: #f2f2f0 !important; /* Button text */
+    }
+
+    #content{
+      /* min-height: calc(100vh - 40px); */
+      height: 50vh;
     }
   </style>
 
@@ -79,51 +91,38 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     
-    <nav class=" navbar navbar-expand-md sticky-top">
-     
-     
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
+  <!--Nav Bar-->
+    <nav class=" navbar navbar-expand-lg navbar-dark sticky-top" role="navigation">
+      <div class="container-fluid">
+        <!--Nav Header and Brand-->
+          <a class="navbar-brand text-light" href="{% url 'index' %}" style="text-indent: 50px;">Brow Salon</a>
+      
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-
-        <a class="navbar-brand text-light" href="{% url 'index' %}" style="text-indent: 50px;">  Brow Salon</a>
-
-
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'shop' %}">Shop</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'services' %}">Services</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'about' %}">About</a>
-            </li>
+        <!--List of links-->
+        <div class="collapse navbar-collapse" id="mynav"></div>
+          <div class="navbar-nav ms-auto">
+            <a class="p-2 nav-item nav-link text-light" href="{% url 'shop' %}">Shop</a>
+            <a class="p-2 nav-item nav-link text-light" href="{% url 'services' %}">Services</a>
+            <a class="p-2 nav-item nav-link text-light" href="{% url 'about' %}">About</a>
             {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link text-light" href="{% url 'view_cart' %}">Cart</a>
-            </li>
+              <a class="p-2 nav-item nav-link text-light" href="{% url 'view_cart' %}">Cart</a>
             {% endif %}
-            <li class="nav-item">
-              <a class="nav-link text-light" href="{% url 'booking' %}">Book Now</a>
-            </li>
-            <li class="nav-item">
-              {% if user.is_authenticated %}
-                <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a> 
-              {% else %}
-                <a class="nav-link text-light" href="{% url 'login_page' %}">Sign up/Login</a>
-              {% endif %}
-            </li>
-        </ul>
-     
+            <a class="p-2 nav-item nav-link text-light" href="{% url 'booking' %}">Book Now</a>
+            {% if user.is_authenticated %}
+              <a class="p-2 nav-item nav-link text-light" href="{% url 'logout' %}">Logout</a> 
+            {% else %}
+              <a class="p-2 nav-item nav-link text-light" href="{% url 'login_page' %}">Sign up/Login</a>
+            {% endif %}
+          </div>
+        </div>
+        <!--End of links-->
+
       </div>
     </nav>
 
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div id="content" class="container-fluid mt-4">
       {% block content %}
       <!-- Page-specific content will go here -->
       {% endblock %}
@@ -132,16 +131,16 @@
 
    
 
-    <div class="clear" style=" clear: both; height: 100px;"></div><!-- Clear dvided to help with spacing-->
+    
       <!-- Footer -->
-    <footer class="sticky-bottom footer bg-light text-center py-3 mt-5">
+    <footer class="fixed-bottom footer bg-light text-center py-3 mt-5">
       <div class="container">
           <div class="row">
             <div class="col-sm text-start fw-bold fs-1">Brow Salon LLC</div>
             <div class="col-sm"></div>
             <div class="col-sm text-start">
               <div class="fw-bold">Location:</div>
-              <br>541 Main St NW,<br>Bourbonnais, IL 60914</div>
+              <br><a href="https://maps.app.goo.gl/2ETaq5atgXUMQaVm8" class="link-light">541 Main St NW,<br>Bourbonnais, IL 60914</a></div>
             <div class="col-sm text-start">
               <div class="fw-bold">Contact:</div>
               <br>adipatel@browthreadingsalon.com<br>(815)304-5985</div>
