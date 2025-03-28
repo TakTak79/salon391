@@ -4,21 +4,53 @@
 
 <br>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm">
-            <img src="https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-fluid" alt="Stock photo of a salon">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipMPOUHnYneU9jwdCSM0A7sIvzj1Ev0RM2w0-6wM=s680-w680-h510" class="img-fluid" alt="Stock photo of a salon">
         </div>
         <div class="col-sm">
-            <h1>Welcome to Brow Salon</h1>
+            <br>
+            <h1 class="text-center">Welcome to Brow Salon</h1><br>
+            <div style="text-indent: 50px;">
+                <p1 class="paragraph">At Brow Salon, we believe that beauty is personal, and every visit should leave you feeling radiant, confident, and refreshed. Our expert stylists and beauty professionals provide exceptional hair, skin, and nail services tailored to your unique style and preferences. Whether you're looking for a simple refresh or a bold transformation, we're here to bring your vision to life.</p1>
+            </div>
+            <br>
+            <br>
+            <a type="button" class="btn text-center d-flex justify-content-center" href="{% url 'booking' %}">Book Now!</a>
+        </div>
+    </div>
+</div>
+<br>
+<br>
 
-            <p1>At Brow Salon, we believe that beauty is personal, and every visit should leave you feeling radiant, confident, and refreshed. Our expert stylists and beauty professionals provide exceptional hair, skin, and nail services tailored to your unique style and preferences. Whether you're looking for a simple refresh or a bold transformation, we're here to bring your vision to life.</p1>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <table class="table text-center container-fluid">
+                <thead>
+                  <tr>
+                    <th scope="col"><a class="text-light" href="{% url 'services' %}">Service</a></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for service in services %}
+                  <tr class="text-center">
+                    <td>{{service.name}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        <div class="col-sm">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3003.8213884466472!2d-87.885345!3d41.16024859999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880dddb7eed563e5%3A0xfe52e30bdb697614!2sBourbonnais%20Towne%20Centre%20Shopping%20Center%2C%20541%20Main%20St%20NW%2C%20Bourbonnais%2C%20IL%2060914!5e0!3m2!1sen!2sus!4v1743176412384!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 </div>
 
+
+
 <br>
-<div class="clear" style=" clear: both; height: 300px;"></div><!-- Clear dvided to help with spacing-->
+<div class="clear" style=" clear: both; height: 250px;"></div><!-- Clear dvided to help with spacing-->
 
 {% endblock %}

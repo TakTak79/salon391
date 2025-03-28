@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<br>
     {% if user.is_authenticated %}
+        <br>
         <div class="container">
             <div class="row">
                 <div class="col-sm">
@@ -37,7 +39,5 @@
     {% else %}
         <div class="text-center">Log in to schedule an appoitnment</div>
     {% endif %}
-    <div class="clear" style=" clear: both; height: 500px;"></div><!-- Clear dvided to help with spacing-->
-
-
+    <div class="clear" style=" clear: both; height: 400px;"></div><!-- Clear dvided to help with spacing-->
 {% endblock %}
