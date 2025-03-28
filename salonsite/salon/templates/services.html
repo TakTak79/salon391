@@ -2,28 +2,41 @@
 
 
 {% block content %}
+<h2 class="text-center container-fluid">Our Services</h2><br><br>
 
-<h2 class="text-center container-fluid">Our Services</h2>
-<table class="table text-center container-fluid">
-    <thead>
-      <tr>
-        <th scope="col">Service</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Cost</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for service in services %}
-      <tr class="text-center">
-        <td>{{service.name}}</td>
-        <td>{{service.duration}}</td>
-        <td>${{service.cost}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-sm">
+        <table class="table text-center container-fluid">
+            <thead>
+              <tr>
+                <th scope="col">Service</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% csrf_token %}  <!-- CSRF token for security -->
+            {% for service in services %}
+              <tr class="text-center">
+                <td>{{service.name}}</td>
+                <td>{{service.duration}}</td>
+                <td>${{service.cost}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <div class="col-sm text-center">
+        <img class="img img-fluid text-center" style="max-width: 500px; width: 100%;"  src="https://img.freepik.com/free-photo/woman-going-through-microblading-treatment_23-2149103138.jpg">
+      </div>
+    </div>
+  </div>
+
 
   <div class="clear" style=" clear: both; height: 238px;"></div><!-- Clear dvided to help with spacing-->
+
+
 
 
 {% endblock %}

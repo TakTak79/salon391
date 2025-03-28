@@ -17,7 +17,8 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
-    return render(request,'index.html')
+    all_services = Service.objects.all()
+    return render(request,'index.html', {'services':all_services})
 
 def about(request):
     return render(request, 'about.html')
@@ -73,7 +74,8 @@ def register_page(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
+        # phone_number = request.Post.get('phone_number')
+
         # Check if a user with the provided username already exists
         user = User.objects.filter(username=username)
         
