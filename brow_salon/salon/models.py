@@ -25,3 +25,10 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f'{self.quantity} x {self.product.name}'
+    
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+    order_number = models.CharField(max_length=100)
+    itemList = models.TextField(null=True)
+    
