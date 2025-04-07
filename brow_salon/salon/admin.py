@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from salon.models import CartItem, Product, Service
+from salon.models import CartItem, Order, Product, Service
 
 # Register your models here.
 
@@ -22,3 +22,4 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Service,ServiceAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CartItem)
+admin.site.register(Order)

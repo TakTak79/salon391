@@ -21,6 +21,8 @@ urlpatterns = [
     path('register/', views.register_page, name='register'),  # Registration page
     path('logout/', views.logout_view, name="logout"),
     path('place_order', views.place_order, name='place_order'),
+    path('activate-user/<uidb64>/<token>', views.activate_user, name='activate'),
+    path('profile/', views.view_profile, name='profile')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

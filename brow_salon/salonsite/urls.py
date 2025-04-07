@@ -22,8 +22,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('salon/', include("salon.urls")),
-    # path('accounts/', include('django.contrib.auth.urls')),  # Default auth URLs (login, logout, etc.)
+    path(r'', include("salon.urls")),
+    path('', include('django_registration.backends.activation.urls')),
+    #path('', include('django.contrib.auth.urls')),  # Default auth URLs (login, logout, etc.)
     # path('login/', auth_views.LoginView.as_view(), name='login'),  # Custom /login/ path
 ]
 

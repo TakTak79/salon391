@@ -1,19 +1,41 @@
+from datetime import date, datetime
+import json
 from ntpath import join
+from typing import Self
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
+from django.urls import reverse
 from .models import *
 from django.core.mail import send_mail
+from django_registration.backends import *
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.utils.encoding import force_str
+import threading
 
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email=email
+        threading.Thread.__init__(self)
+    def run(self):
+        self.email.send()
 
-#from salon.forms import SignUpForm
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return str(user.pk)+str(timestamp)+str(user.is_active)
+    
+generate_token = TokenGenerator()
 
 # Create your views here.
 def index(request):
@@ -35,8 +57,32 @@ def shop(request):
     all_products = Product.objects.all()
     return render(request, 'shop.html', {'products':all_products})
 
-# def cart(request):
-#     return render(request, 'cart.html')
+
+def activate_user(request, uidb64, token):
+    try:
+        uid=force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception as e:
+        user=None
+    if user and generate_token.check_token(user,token):
+        user.is_active = True
+        user.save()
+        messages.add_message(request, messages.SUCCESS, 'Email is verified, you can now login')
+        return redirect(reverse('login_page'))
+    return render(request, 'authentication/activate-failed.html',{'user':user})
+
+def send_activation_email(user, request):
+    current_site = get_current_site(request)
+    email_subject = 'Activate your account'
+    email_body = render_to_string('activate.html',{
+        'user':user,
+        'domain':current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': generate_token.make_token(user)
+    })
+    send_mail(email_subject,email_body, "browsalon3@gmail.com", [str(user.email)])
+    
+
 
 
 def login_page(request):
@@ -74,7 +120,6 @@ def register_page(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # phone_number = request.Post.get('phone_number')
 
         # Check if a user with the provided username already exists
         user = User.objects.filter(username=username)
@@ -93,12 +138,14 @@ def register_page(request):
         )
         
         # Set the user's password and save the user object
+        user.is_active=False
         user.set_password(password)
         user.save()
+        send_activation_email(user,request)
         
         # Display an information message indicating successful account creation
-        messages.info(request, "Account created Successfully!")
-        return redirect('register')
+        messages.info(request, "We sent you an email to verify your account")
+        return redirect('login_page')
     
     # Render the registration page template (GET request)
     return render(request, 'register.html')
@@ -151,6 +198,7 @@ def place_order(request):
     total_price = sum(item.product.cost * item.quantity for item in cart_items)
     user = request.user
     user_email = user.email
+    date = datetime.today()
     items=[]
     for item in cart_items:
         items.append(item.product.name +": " + str(item.quantity))
@@ -174,5 +222,24 @@ def place_order(request):
     fail_silently=False,
     )
 
+    #Save order to database
+    order = Order()
+    order.itemList = json.dumps(items)
+    order.user = user
+    #order.date_added = date
+    order.order_number = str(request.user.id) + '-' + date.strftime('%m-%d-%Y')
+    order.save()
+
     return redirect('view_cart')
 
+def view_profile(request):
+    all_orders=Order.objects.filter(user=request.user)
+    jsonDec = json.decoder.JSONDecoder()
+    # order_numbers=[]
+    # order_dates=[]
+    # order_contents=[]
+    orders=[]
+    for order in all_orders:
+       orders.append([order.order_number,order.date_added, jsonDec.decode(order.itemList)])
+
+    return render(request, 'profile.html', {'orders': orders })

@@ -11,7 +11,7 @@
             <thead>
               <tr>
                 <th scope="col">Service</th>
-                <th scope="col">Duration</th>
+                <th scope="col">Duration(min.)</th>
                 <th scope="col">Cost</th>
               </tr>
             </thead>
@@ -19,7 +19,7 @@
             {% csrf_token %}  <!-- CSRF token for security -->
             {% for service in services %}
               <tr class="text-center">
-                <td>{{service.name}}</td>
+                <td><a class="text-dark" href="{% url 'booking' %}">{{service.name}}</a></td>
                 <td>{{service.duration}}</td>
                 <td>${{service.cost}}</td>
               </tr>
