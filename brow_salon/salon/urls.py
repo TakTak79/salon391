@@ -22,7 +22,9 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('place_order', views.place_order, name='place_order'),
     path('activate-user/<uidb64>/<token>', views.activate_user, name='activate'),
-    path('profile/', views.view_profile, name='profile')
+    path('profile/', views.view_profile, name='profile'),
+    path('reset_password/', views.reset_passowrd, name='reset_password'),
+    path('new_password/<str:email>/', views.new_password, name='new_password'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

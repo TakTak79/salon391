@@ -154,22 +154,6 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'change_password.html', {
-        'form': form
-    })
-
 def view_cart(request):
     all_products = Product.objects.all()
     cart_items = CartItem.objects.filter(user=request.user)
@@ -243,3 +227,47 @@ def view_profile(request):
        orders.append([order.order_number,order.date_added, jsonDec.decode(order.itemList)])
 
     return render(request, 'profile.html', {'orders': orders })
+
+def reset_passowrd(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email)
+        if user is None:
+            # Display an information message if the user acoount does not exsist 
+            messages.info(request, "No account with this email adress")
+            return redirect('reset_password')
+
+        if user.exists():
+            current_site = get_current_site(request)
+            email_subject = 'Reset your Password'
+            email_body = render_to_string('reset_email.html',{
+                'domain':current_site,
+                'email': email
+            })
+            send_mail(
+                email_subject,
+                email_body, 
+                'browsalon3@gmail.com',
+                [str(email)],
+                fail_silently=False,
+                )
+            messages.info(request, "Email has been sent to "+ email)
+    return render(request, 'reset_password.html')
+
+
+def new_password(request, email):
+    if request.method == 'POST':
+
+        password = request.POST.get('password')
+
+        if request.user.is_authenticated:
+            user = request.user
+            user.set_password(password)
+            user.save()
+            return redirect('login_page')
+        else:
+            user = User.objects.filter(email=email)
+            user[0].set_password(password)
+            user[0].save()
+            return redirect('login_page')
+    return render(request, 'new_password.html')

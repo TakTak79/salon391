@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm text-center">
             <a class="btn text-center" type="button" href="{% url 'logout' %}"> Log Out</a><br><br>
-            <a class="btn text-center" type="button" href=""> Change Password</a>
+            <a class="btn text-center" type="button" href="{% url 'new_password' user.email %}"> Change Password</a>
         </div>
         <div class="col-sm">
             <h2 class="text-center">Order History</h2><br>
