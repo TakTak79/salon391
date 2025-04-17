@@ -1,0 +1,12 @@
+{% autoescape off %}
+
+
+Hi {{email}}
+
+Please use the link below to reset your password.
+
+
+https://{{domain}}{% url 'new_password' email=email%}
+
+
+{% endautoescape %}
