@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import json
 from ntpath import join
+import random
 from typing import Self
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -211,7 +212,8 @@ def place_order(request):
     order.itemList = json.dumps(items)
     order.user = user
     #order.date_added = date
-    order.order_number = str(request.user.id) + '-' + date.strftime('%m-%d-%Y')
+
+    order.order_number = str(request.user.id) +str(random.randrange(100,300)) +  '-' + date.strftime('%m-%d-%Y')
     order.save()
 
     return redirect('view_cart')
@@ -264,10 +266,12 @@ def new_password(request, email):
             user = request.user
             user.set_password(password)
             user.save()
-            return redirect('login_page')
+            login(request, user)
+            return redirect('profile')
         else:
             user = User.objects.filter(email=email)
             user[0].set_password(password)
             user[0].save()
-            return redirect('login_page')
+            login(request, user[0])
+            return redirect('index')
     return render(request, 'new_password.html')
