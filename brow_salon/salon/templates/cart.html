@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm text-center">
             <h1>Your Shopping Cart</h1>
@@ -34,20 +34,22 @@
         
             <p>Total Price: ${{ total_price }}</p>
         
-         
+        <div class="container-fluid">
             <a type="button" class="btn" href="{% url 'shop' %}">Continue Shopping</a>
             <a type="button" class="btn" href="{% url 'place_order' %}">Place Order</a>
+        </div>
+        
         
         </div>
         <div class="col-sm" style="text-align: right;">
             <br>
-            <img src="https://images.pexels.com/photos/8468162/pexels-photo-8468162.jpeg?auto=compress&cs=tinysrgb&w=600" style="width: 100%;
+            <img class="img-fluid" src="https://images.pexels.com/photos/8468162/pexels-photo-8468162.jpeg?auto=compress&cs=tinysrgb&w=600" style="width: 100%;
         max-width: 350px;" class="img img-fluid" alt="Stock image of salon products">
         </div>
     </div>
 </div>
 
-<!-- <div class="clear" style=" clear: both; height: 300px;"></div>Clear dvided to help with spacing -->
+<div class="clear" style=" clear: both; height: 150px;"></div>Clear dvided to help with spacing
 
 
 
