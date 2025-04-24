@@ -39,26 +39,32 @@ class TokenGenerator(PasswordResetTokenGenerator):
 generate_token = TokenGenerator()
 
 # Create your views here.
+
+#Displays Home Page
 def index(request):
     all_services = Service.objects.all()
     return render(request,'index.html', {'services':all_services})
 
+#Displays about page
 def about(request):
     return render(request, 'about.html')
     
+#Displays booing page
 def booking(request):
     all_services = Service.objects.all()
     return render(request, 'book.html', {'services':all_services})
 
+#Displays Services page
 def services(request):
     all_services = Service.objects.all()
     return render(request, 'services.html', {'services':all_services})
 
+#Displays Shop page
 def shop(request):
     all_products = Product.objects.all()
     return render(request, 'shop.html', {'products':all_products})
 
-
+#Activates a users account 
 def activate_user(request, uidb64, token):
     try:
         uid=force_str(urlsafe_base64_decode(uidb64))
@@ -72,6 +78,7 @@ def activate_user(request, uidb64, token):
         return redirect(reverse('login_page'))
     return render(request, 'authentication/activate-failed.html',{'user':user})
 
+#Sends activation email to user
 def send_activation_email(user, request):
     current_site = get_current_site(request)
     email_subject = 'Activate your account'
@@ -83,9 +90,7 @@ def send_activation_email(user, request):
     })
     send_mail(email_subject,email_body, "browsalon3@gmail.com", [str(user.email)])
     
-
-
-
+#Display and controls login page
 def login_page(request):
     # Check if the HTTP request method is POST (form submission)
     if request.method == "POST":
@@ -113,7 +118,7 @@ def login_page(request):
     # Render the login page template (GET request)
     return render(request, 'login.html')
 
-# Define a view function for the registration page
+# Displays and controls registration page
 def register_page(request):
     # Check if the HTTP request method is POST (form submission)
     if request.method == 'POST':
@@ -151,16 +156,19 @@ def register_page(request):
     # Render the registration page template (GET request)
     return render(request, 'register.html')
 
+#Logsout the user
 def logout_view(request):
     logout(request)
     return redirect('index')
 
+#Displays the cart
 def view_cart(request):
     all_products = Product.objects.all()
     cart_items = CartItem.objects.filter(user=request.user)
     total_price = sum(item.product.cost * item.quantity for item in cart_items)
     return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price,'products':all_products })
 
+#Add an item to cart
 def add_to_cart(request, product_id):
     product = Product.objects.get(id=product_id)
     cart_item, created = CartItem.objects.get_or_create(product=product, user=request.user)
@@ -168,7 +176,7 @@ def add_to_cart(request, product_id):
     cart_item.save()
     return redirect('view_cart')
 
-
+#Remove an item from cart
 def remove_from_cart(request, item_id):
     cart_item = CartItem.objects.get(id=item_id)
     if cart_item.quantity <= 1:
@@ -178,6 +186,7 @@ def remove_from_cart(request, item_id):
         cart_item.save()
     return redirect('view_cart')
 
+#Sends order email to user and owner
 def place_order(request):
     cart_items = CartItem.objects.filter(user=request.user)
     total_price = sum(item.product.cost * item.quantity for item in cart_items)
@@ -218,6 +227,7 @@ def place_order(request):
 
     return redirect('view_cart')
 
+#Display Profile
 def view_profile(request):
     all_orders=Order.objects.filter(user=request.user)
     jsonDec = json.decoder.JSONDecoder()
@@ -230,6 +240,7 @@ def view_profile(request):
 
     return render(request, 'profile.html', {'orders': orders })
 
+#Sends reset password email
 def reset_passowrd(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -256,7 +267,7 @@ def reset_passowrd(request):
             messages.info(request, "Email has been sent to "+ email)
     return render(request, 'reset_password.html')
 
-
+#Sets new password for user
 def new_password(request, email):
     if request.method == 'POST':
 
